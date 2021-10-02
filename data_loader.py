@@ -1,9 +1,6 @@
 import torch
 from torchvision import datasets, transforms
 
-from PIL import Image
-import numpy as np
-
 
 def normalize_img(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]):
     return transforms.Normalize(mean=mean, std=std)

@@ -4,6 +4,11 @@ from torch import optim
 import torch.nn.functional as F
 from torchvision import models
 
+from PIL import Image
+import numpy as np
+
+from data_loader import image_tranformer
+
 
 class Classifier:
     def __init__(self, device, arch='vgg16',  hidden_layers=1024,  outputs=102):
@@ -92,23 +97,36 @@ class Classifier:
                     self.model.train()
         self.optimizer = optimizer
 
+    def predict(self, image_path, topk=5):
+
+        image = Image.open(image_path)
+        tranformer = image_tranformer(resize=256)
+        image = tranformer(image)
+        image = image.unsqueeze_(0)
+        image = image.float()
+        inputs = image.to(self.device)
+
+        with torch.no_grad():
+            output = self.model.forward(inputs)
+
+        results = F.softmax(output.data, dim=1)
+
+        top_predictions = results.cpu().topk(topk)
+
+        results = list()
+        for pred in top_predictions:
+            results.append(pred.data.numpy().squeeze().tolist())
+
+        return tuple(results)
+
     def save_to_checkpoint(self, class_to_idx, folder_path='checkpoints'):
         self.model.class_to_idx = class_to_idx
-
-        if self.arch == 'vgg16':
-            pretrained_model = models.vgg16(pretrained=True)
-        elif self.arch == 'alexnet':
-            pretrained_model = models.alexnet(pretrained=True)
-        else:
-            raise Exception(
-                "Arch type of {} is not supported !!!".format(self.arch))
 
         checkpoint = {
             'arch': self.arch,
             'hidden_layers': self.hidden_layers,
             'outputs': self.outputs,
             'learning_rate': self.learning_rate,
-            'model': pretrained_model,
             'epochs': self.epochs,
             'classifier': self.model.classifier,
             'optimizer': self.optimizer.state_dict(),
@@ -119,13 +137,19 @@ class Classifier:
         torch.save(checkpoint, folder_path + '/' +
                    self.arch + '_checkpoint.pth')
 
-    def load_from_checkpoint(file_path, device):
-        checkpoint = torch.load(file_path)
-        classifier = Classifier(
-            device, checkpoint['arch'], checkpoint['hidden_layers'], checkpoint['outputs'])
-        classifier.model.classifier = checkpoint['classifier']
-        classifier.model.load_state_dict(torch.load(
-            checkpoint['state_dict'], map_location=device))
-        classifier.model.class_to_idx = checkpoint['class_to_idx']
 
-        return classifier
+def load_from_checkpoint(file_path, device):
+
+    if device == torch.device("cuda"):
+        def map_location(storage, loc): return storage.cuda()
+    else:
+        map_location = 'cpu'
+
+    checkpoint = torch.load(file_path,  map_location=map_location)
+    classifier = Classifier(
+        device, checkpoint['arch'], checkpoint['hidden_layers'], checkpoint['outputs'])
+    classifier.model.classifier = checkpoint['classifier']
+    classifier.model.load_state_dict(checkpoint['state_dict'], strict=False)
+    classifier.model.class_to_idx = checkpoint['class_to_idx']
+
+    return classifier
