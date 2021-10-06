@@ -1,5 +1,3 @@
-﻿# pytorch-image-classifier
-
 <img src="./assets/pexels-tara-winstead-8386440.jpg">
 
 > Photo by [Tara Winstead](https://www.pexels.com/@tara-winstead?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels) from [Pexels](https://www.pexels.com/photo/robot-pointing-on-a-wall-8386440/?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels)
