@@ -1,37 +1,48 @@
-## Welcome to GitHub Pages
+﻿# pytorch-image-classifier
 
-You can use the [editor on GitHub](https://github.com/achimoraites/pytorch-image-classifier/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+<img src="./assets/pexels-tara-winstead-8386440.jpg">
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+> Photo by [Tara Winstead](https://www.pexels.com/@tara-winstead?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels) from [Pexels](https://www.pexels.com/photo/robot-pointing-on-a-wall-8386440/?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels)
 
-### Markdown
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
-```markdown
-Syntax highlighted code block
+## Setup
 
-# Header 1
-## Header 2
-### Header 3
+To be able to try the code you will need to
 
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+1. Download the [`flowers.zip`](https://www.mediafire.com/file/87yctfoff1sqi8n/flowers.zip/file) file
+2. Extract it to the root of the project as `flowers/`
+3. Install the dependencies
+**Using Anaconda (recommended)**
+```bash
+conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch
+conda install -c anaconda pillow 
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+The `flowers.zip` has 3 folders that contain our flower images
+- `train` this is our training data
+- `valid` this is the data used for evaluating our classifier accuracy during training
+- `test`  used for sanity checking 
 
-### Jekyll Themes
+The `cat_to_name.json` has the mappings between the flower ids and their actual names
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/achimoraites/pytorch-image-classifier/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+## 📖 Train your classifier
+Now it is time to do fun stuff!
 
-### Support or Contact
+Lets train our classifier
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+**If you have CUDA compatible gpu**
+```bash
+python train.py flowers --epochs=15 --gpu
+```
+
+**Otherwise**
+```bash
+python train.py flowers --epochs=15
+```
+
+This will start the training process for each epoch the tool will train the classifier and will evaluate the classifier accuracy.
+
+When the training is completed the tool will save a checkpoint in `checkpoints/alexnet_checkpoint.pth`
+
+We will need this for making predictions later!
