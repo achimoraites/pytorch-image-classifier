@@ -1,7 +1,6 @@
 import torch
 import argparse
-from data_loader import load_dir
-from classifier import Classifier, load_from_checkpoint
+from classifier import load_from_checkpoint
 import json
 
 

@@ -5,7 +5,6 @@ import torch.nn.functional as F
 from torchvision import models
 
 from PIL import Image
-import numpy as np
 
 from data_loader import image_tranformer
 
