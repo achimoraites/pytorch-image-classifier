@@ -29,7 +29,25 @@ The `cat_to_name.json` has the mappings between the flower ids and their actual 
 ## 📖 Train your classifier
 Now it is time to do fun stuff!
 
-Lets train our classifier
+### Available options
+
+- `--arch`: (optional) **'Set the CCN Model architecture to use'**
+    - `vgg16` 
+    - `alexnet` (default)
+
+- `--save_dir`: (optional) **'Set the folder that will be used to save the checkpoints'** the default is `checkpoints`
+                       
+- `--learning_rate`: (optional) **'Set the learning rate'**  the default is `0.001`
+
+- `--hidden_units`: (optional) **'Set the number of hidden units in the classifier hidden layer'** the default is `1024`
+
+- `--epochs`: (optional) **'Set the number of training epochs'** default is `1`
+
+- `--gpu`: (optional) **'Train the model on gpu'** this requires that you have a CUDA supported GPU!
+
+### Lets train our classifier
+
+The training script requires to pass as a first argument the folder that 'contains' your images, after that you can pass in any order the above arguments as well to fine tune the training process 😸
 
 **If you have CUDA compatible gpu**
 ```bash
