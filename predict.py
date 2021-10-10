@@ -13,7 +13,7 @@ def main():
     parser.add_argument('checkpoint_path', action="store",
                         type=str, help='Path to the classifier checkpoint')
     parser.add_argument('--category_names', default="cat_to_name.json",
-                        type=str, help='Path to the classifier checkpoint')
+                        type=str, help='Path to the category names JSON, this is used to map category IDs to their labels')
     parser.add_argument('--top_k', type=int, default=5,
                         help='The number of top predictions')
     parser.add_argument('--gpu', action='store_true', help='Predict on gpu')
