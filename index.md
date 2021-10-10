@@ -27,7 +27,28 @@ The `cat_to_name.json` has the mappings between the flower ids and their actual 
 ## 📖 Train your classifier
 Now it is time to do fun stuff!
 
-Lets train our classifier
+### 💻 Available options
+
+- `--arch`: (optional) **'Set the CCN Model architecture to use'**
+    - `vgg16` 
+    - `alexnet` (default)
+
+- `--save_dir`: (optional) **'Set the folder that will be used to save the checkpoints'** the default is `checkpoints`
+                       
+- `--learning_rate`: (optional) **'Set the learning rate'**  the default is `0.001`
+
+- `--hidden_units`: (optional) **'Set the number of hidden units in the classifier hidden layer'** the default is `1024`
+
+- `--epochs`: (optional) **'Set the number of training epochs'** default is `1`
+
+- `--gpu`: (optional) **'Train the model on gpu'** this requires that you have a CUDA supported GPU!
+
+### 👨‍🏫 Lets train our classifier
+
+The `train.py` script requires you to:
+- pass as a first argument the folder that 'contains' your images
+- after that you can pass in any order the above arguments as well to fine tune the training process 😸
+
 
 **If you have CUDA compatible gpu**
 ```bash
@@ -44,3 +65,42 @@ This will start the training process for each epoch the tool will train the clas
 When the training is completed the tool will save a checkpoint in `checkpoints/alexnet_checkpoint.pth`
 
 We will need this for making predictions later!
+
+## 🔮 Making image predictions using our classifier
+Now it is time to use our classifier!
+
+### 💻 Available options
+
+- `--category_names`: (optional) **'Path to the category names JSON, this is used to map category IDs to their labels'** the default is `cat_to_name.json`
+                       
+- `--top_k`: (optional) **'The number of top predictions to be displayed'**  the default is `5`
+
+- `--hidden_units`: (optional) **'Set the number of hidden units in the classifier hidden layer'** the default is `1024`
+
+- `--gpu`: (optional) **'Train the model on gpu'** this requires that you have a CUDA supported GPU!
+
+### 👨‍🏫 Lets use our classifier
+
+The `predict.py` script requires you to:
+- pass as a first argument the path to your image
+- pass as a seccond argument the checkpoint path to be used
+- after that you can pass in any order the above arguments as well to fine tune the prediction process 😸
+
+
+### 🧑‍💻 Examples
+
+**If you have CUDA compatible gpu**
+```bash
+python predict.py flowers/test/10/image_07090.jpg checkpoints/alexnet_checkpoint.pth --gpu
+```
+
+**Otherwise**
+```bash
+python predict.py flowers/test/10/image_07090.jpg checkpoints/alexnet_checkpoint.pth
+```
+
+This will start the prediction process and you will get a list of the top predictions for the `flowers/test/10/image_07090.jpg` !
+
+### 🎉 Congratz!
+
+You have trained an image classifier and used it to make predictions 👏 !!!
