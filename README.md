@@ -79,7 +79,7 @@ Now it is time to use our classifier!
 
 - `--hidden_units`: (optional) **'Set the number of hidden units in the classifier hidden layer'** the default is `1024`
 
-- `--gpu`: (optional) **'Train the model on gpu'** this requires that you have a CUDA supported GPU!
+- `--gpu`: (optional) **'Make prediction using the gpu'** this requires that you have a CUDA supported GPU!
 
 ### 👨‍🏫 Lets use our classifier
 
